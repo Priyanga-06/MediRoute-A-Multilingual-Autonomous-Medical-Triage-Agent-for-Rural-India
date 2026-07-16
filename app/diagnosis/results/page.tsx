@@ -240,8 +240,8 @@ For emergencies call: 112
 
         {/* Patient Summary + Urgency */}
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          <div className="card-lg p-5">
-            <h2 className="font-bold mb-3">Patient Summary</h2>
+          <div className="p-5 rounded-2xl border-2 border-sky-200 bg-sky-50 shadow-sm">
+            <h2 className="font-bold mb-3 text-sky-800 text-base">👤 Patient Summary</h2>
             <div className="space-y-2 text-sm">
               {[
                 ['Name', patientData.name],
@@ -252,17 +252,17 @@ For emergencies call: 112
                 ['Severity', patientData.severity],
               ].map(([k, v]) => (
                 <div key={k} className="flex gap-2">
-                  <span className="text-muted-foreground w-28 flex-shrink-0">{k}:</span>
-                  <span className="font-medium capitalize">{v}</span>
+                  <span className="text-sky-600 font-semibold w-28 flex-shrink-0">{k}:</span>
+                  <span className="font-bold text-slate-800 capitalize">{v}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className={`card-lg p-5 border-2 ${urgencyStyle.bg}`}>
-            <h2 className="font-bold mb-3">Urgency Level</h2>
-            <p className={`text-3xl font-bold ${urgencyStyle.text} mb-2`}>{urgencyStyle.label}</p>
-            <p className="text-sm text-muted-foreground mb-4">Specialist: <strong>{diagnosis.specialistRecommendation}</strong></p>
-            <p className="text-sm text-muted-foreground">Hospital: <strong>{diagnosis.hospitalRecommendation}</strong></p>
+          <div className={`p-5 rounded-2xl border-2 ${urgencyStyle.bg} shadow-sm`}>
+            <h2 className="font-bold mb-3 text-base">⚡ Urgency Level</h2>
+            <p className={`text-3xl font-extrabold ${urgencyStyle.text} mb-2`}>{urgencyStyle.label}</p>
+            <p className="text-sm font-semibold text-slate-700 mb-2">Specialist: <strong className="text-slate-900">{diagnosis.specialistRecommendation}</strong></p>
+            <p className="text-sm font-semibold text-slate-700">Hospital: <strong className="text-slate-900">{diagnosis.hospitalRecommendation}</strong></p>
           </div>
         </div>
 
@@ -276,66 +276,65 @@ For emergencies call: 112
           ))}
         </div>
 
-        {/* Overview Tab */}
         {(activeTab === 'overview') && (
           <div className="space-y-5">
             {/* Possible Conditions */}
-            <div className="card-lg p-5">
-              <h2 className="font-bold mb-4 flex items-center gap-2"><Activity className="w-4 h-4 text-primary" /> {t('results.conditions')}</h2>
+            <div className="p-5 rounded-2xl border-2 border-indigo-200 bg-indigo-50 shadow-sm">
+              <h2 className="font-bold mb-4 flex items-center gap-2 text-indigo-800"><Activity className="w-4 h-4" /> {t('results.conditions')}</h2>
               <div className="space-y-3">
                 {diagnosis.possibleConditions?.map((c, i) => (
-                  <div key={i} className="p-3 border border-border rounded-lg">
+                  <div key={i} className="p-3 bg-white border border-indigo-100 rounded-xl shadow-sm">
                     <div className="flex justify-between items-center mb-1">
-                      <h3 className="font-semibold">{c.condition}</h3>
-                      <span className="badge text-xs">{c.probability}%</span>
+                      <h3 className="font-bold text-slate-800">{c.condition}</h3>
+                      <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-2 py-0.5 rounded-full">{c.probability}%</span>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-1.5 mb-2">
-                      <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${c.probability}%` }} />
+                    <div className="w-full bg-indigo-100 rounded-full h-2 mb-2">
+                      <div className="bg-indigo-500 h-2 rounded-full" style={{ width: `${c.probability}%` }} />
                     </div>
-                    <p className="text-sm text-muted-foreground">{c.description}</p>
+                    <p className="text-sm text-slate-700 font-medium">{c.description}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Recommendations */}
-            <div className="card-lg p-5">
-              <h2 className="font-bold mb-4 flex items-center gap-2"><ClipboardList className="w-4 h-4 text-primary" /> {t('results.recommendations')}</h2>
+            <div className="p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50 shadow-sm">
+              <h2 className="font-bold mb-4 flex items-center gap-2 text-emerald-800"><ClipboardList className="w-4 h-4" /> {t('results.recommendations')}</h2>
               <ul className="space-y-2">
                 {diagnosis.recommendations?.map((r, i) => (
-                  <li key={i} className="flex gap-2 text-sm"><span className="text-success font-bold flex-shrink-0">✓</span>{r}</li>
+                  <li key={i} className="flex gap-2 text-sm font-semibold text-slate-800"><span className="text-emerald-600 font-bold flex-shrink-0">✓</span>{r}</li>
                 ))}
               </ul>
             </div>
 
             {/* Home Remedies */}
             {diagnosis.homeRemedies?.length > 0 && (
-              <div className="card-lg p-5">
-                <h2 className="font-bold mb-4 flex items-center gap-2"><Home className="w-4 h-4 text-secondary" /> Home Remedies</h2>
+              <div className="p-5 rounded-2xl border-2 border-teal-200 bg-teal-50 shadow-sm">
+                <h2 className="font-bold mb-4 flex items-center gap-2 text-teal-800"><Home className="w-4 h-4" /> {t('results.homeRemedies')}</h2>
                 <ul className="space-y-2">
                   {diagnosis.homeRemedies.map((r, i) => (
-                    <li key={i} className="flex gap-2 text-sm"><span className="text-secondary font-bold flex-shrink-0">🌿</span>{r}</li>
+                    <li key={i} className="flex gap-2 text-sm font-semibold text-slate-800"><span className="text-teal-600 font-bold flex-shrink-0">🌿</span>{r}</li>
                   ))}
                 </ul>
               </div>
             )}
 
             {/* Lifestyle Changes */}
-            <div className="card-lg p-5">
-              <h2 className="font-bold mb-4 flex items-center gap-2"><Heart className="w-4 h-4 text-destructive" /> Lifestyle Changes</h2>
+            <div className="p-5 rounded-2xl border-2 border-orange-200 bg-orange-50 shadow-sm">
+              <h2 className="font-bold mb-4 flex items-center gap-2 text-orange-800"><Heart className="w-4 h-4" /> {t('results.lifestyle')}</h2>
               <ul className="space-y-2">
                 {diagnosis.lifestyleChanges?.map((l, i) => (
-                  <li key={i} className="flex gap-2 text-sm"><span className="text-accent flex-shrink-0">•</span>{l}</li>
+                  <li key={i} className="flex gap-2 text-sm font-semibold text-slate-800"><span className="text-orange-500 flex-shrink-0 font-bold">•</span>{l}</li>
                 ))}
               </ul>
             </div>
 
             {/* Next Steps */}
-            <div className="card-lg p-5">
-              <h2 className="font-bold mb-4 flex items-center gap-2"><ArrowRight className="w-4 h-4 text-primary" /> Next Steps</h2>
+            <div className="p-5 rounded-2xl border-2 border-blue-200 bg-blue-50 shadow-sm">
+              <h2 className="font-bold mb-4 flex items-center gap-2 text-blue-800"><ArrowRight className="w-4 h-4" /> {t('results.nextSteps')}</h2>
               <ol className="space-y-2">
                 {diagnosis.nextSteps?.map((s, i) => (
-                  <li key={i} className="flex gap-2 text-sm"><span className="text-primary font-bold flex-shrink-0">{i + 1}.</span>{s}</li>
+                  <li key={i} className="flex gap-2 text-sm font-semibold text-slate-800"><span className="text-blue-600 font-extrabold flex-shrink-0">{i + 1}.</span>{s}</li>
                 ))}
               </ol>
             </div>
@@ -346,28 +345,28 @@ For emergencies call: 112
         {activeTab === 'recovery' && diagnosis.recoveryPlan && (
           <div className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="card-lg p-5">
-                <h3 className="font-bold mb-3">🥗 Diet Plan</h3>
-                <ul className="space-y-1.5">{diagnosis.recoveryPlan.diet?.map((d, i) => <li key={i} className="text-sm flex gap-2"><span className="text-success">•</span>{d}</li>)}</ul>
+              <div className="p-5 rounded-2xl border-2 border-green-200 bg-green-50 shadow-sm">
+                <h3 className="font-bold mb-3 text-green-800">🥗 {t('results.diet')}</h3>
+                <ul className="space-y-1.5">{diagnosis.recoveryPlan.diet?.map((d, i) => <li key={i} className="text-sm font-semibold text-slate-800 flex gap-2"><span className="text-green-600">•</span>{d}</li>)}</ul>
               </div>
-              <div className="card-lg p-5">
-                <h3 className="font-bold mb-3">🏃 Exercise Plan</h3>
-                <ul className="space-y-1.5">{diagnosis.recoveryPlan.exercise?.map((e, i) => <li key={i} className="text-sm flex gap-2"><span className="text-primary">•</span>{e}</li>)}</ul>
+              <div className="p-5 rounded-2xl border-2 border-blue-200 bg-blue-50 shadow-sm">
+                <h3 className="font-bold mb-3 text-blue-800">🏃 {t('results.exercise')}</h3>
+                <ul className="space-y-1.5">{diagnosis.recoveryPlan.exercise?.map((e, i) => <li key={i} className="text-sm font-semibold text-slate-800 flex gap-2"><span className="text-blue-600">•</span>{e}</li>)}</ul>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="card-lg p-5">
-                <h3 className="font-bold mb-2">😴 Sleep</h3>
-                <p className="text-sm text-muted-foreground">{diagnosis.recoveryPlan.sleep}</p>
+              <div className="p-5 rounded-2xl border-2 border-purple-200 bg-purple-50 shadow-sm">
+                <h3 className="font-bold mb-2 text-purple-800">😴 {t('results.sleep')}</h3>
+                <p className="text-sm font-semibold text-slate-800">{diagnosis.recoveryPlan.sleep}</p>
               </div>
-              <div className="card-lg p-5">
-                <h3 className="font-bold mb-2">💧 Water Intake</h3>
-                <p className="text-sm text-muted-foreground">{diagnosis.recoveryPlan.waterIntake}</p>
+              <div className="p-5 rounded-2xl border-2 border-sky-200 bg-sky-50 shadow-sm">
+                <h3 className="font-bold mb-2 text-sky-800">💧 {t('results.water')}</h3>
+                <p className="text-sm font-semibold text-slate-800">{diagnosis.recoveryPlan.waterIntake}</p>
               </div>
             </div>
-            <div className="card-lg p-5 border-l-4 border-l-destructive">
-              <h3 className="font-bold mb-3 text-destructive">⚠️ Warning Signs — Seek Immediate Care</h3>
-              <ul className="space-y-1.5">{diagnosis.recoveryPlan.warningSigns?.map((w, i) => <li key={i} className="text-sm flex gap-2"><span className="text-destructive">!</span>{w}</li>)}</ul>
+            <div className="p-5 rounded-2xl border-2 border-red-200 bg-red-50 shadow-sm">
+              <h3 className="font-bold mb-3 text-red-700">⚠️ {t('results.warningSigns')}</h3>
+              <ul className="space-y-1.5">{diagnosis.recoveryPlan.warningSigns?.map((w, i) => <li key={i} className="text-sm font-bold text-red-800 flex gap-2"><span>!</span>{w}</li>)}</ul>
             </div>
           </div>
         )}
@@ -375,16 +374,25 @@ For emergencies call: 112
         {/* Medications Tab */}
         {activeTab === 'medications' && (
           <div className="space-y-4">
-            <div className="p-4 bg-warning/10 border border-warning/20 rounded-xl">
-              <p className="text-sm text-warning font-medium">⚠️ The following are general OTC guidance only. Always consult a pharmacist or doctor before taking any medication.</p>
+            <div className="p-4 bg-amber-50 border-2 border-amber-200 rounded-xl">
+              <p className="text-sm font-bold text-amber-800">⚠️ {t('results.otcNote')}</p>
             </div>
             {diagnosis.medicationSuggestions?.map((m, i) => (
-              <div key={i} className="card-lg p-5">
-                <h3 className="font-bold mb-3 flex items-center gap-2"><Pill className="w-4 h-4 text-primary" />{m.name}</h3>
+              <div key={i} className="p-5 rounded-2xl border-2 border-violet-200 bg-violet-50 shadow-sm">
+                <h3 className="font-bold mb-3 flex items-center gap-2 text-violet-800"><Pill className="w-4 h-4" />{m.name}</h3>
                 <div className="grid sm:grid-cols-3 gap-3 text-sm">
-                  <div><p className="text-muted-foreground text-xs mb-0.5">Dosage</p><p className="font-medium">{m.dosage}</p></div>
-                  <div><p className="text-muted-foreground text-xs mb-0.5">Frequency</p><p className="font-medium">{m.frequency}</p></div>
-                  <div><p className="text-muted-foreground text-xs mb-0.5">Cautions</p><p className="font-medium text-warning">{m.cautions}</p></div>
+                  <div className="bg-white rounded-lg p-3 border border-violet-100">
+                    <p className="text-violet-600 text-xs font-bold mb-0.5">Dosage</p>
+                    <p className="font-bold text-slate-800">{m.dosage}</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-3 border border-violet-100">
+                    <p className="text-violet-600 text-xs font-bold mb-0.5">Frequency</p>
+                    <p className="font-bold text-slate-800">{m.frequency}</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-3 border border-violet-100">
+                    <p className="text-violet-600 text-xs font-bold mb-0.5">Cautions</p>
+                    <p className="font-bold text-amber-700">{m.cautions}</p>
+                  </div>
                 </div>
               </div>
             ))}

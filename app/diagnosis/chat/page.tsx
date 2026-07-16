@@ -28,14 +28,14 @@ function renderInline(text: string): React.ReactNode[] {
 
 function MarkdownText({ text }: { text: string }) {
   return (
-    <div className="space-y-0.5 text-sm leading-relaxed">
+    <div className="space-y-0.5 text-sm leading-relaxed text-slate-800 font-medium">
       {text.split('\n').map((line, i) => {
-        if (line.startsWith('## ')) return <p key={i} className="font-bold text-base mt-2">{line.slice(3)}</p>
-        if (line.startsWith('# ')) return <p key={i} className="font-bold text-lg mt-2">{line.slice(2)}</p>
-        if (line.startsWith('- ') || line.startsWith('• ')) return <div key={i} className="flex gap-2"><span className="text-primary mt-0.5">•</span><span>{renderInline(line.slice(2))}</span></div>
-        if (/^\d+\. /.test(line)) return <div key={i} className="flex gap-2"><span className="text-primary font-medium">{line.match(/^\d+/)?.[0]}.</span><span>{renderInline(line.replace(/^\d+\. /, ''))}</span></div>
+        if (line.startsWith('## ')) return <p key={i} className="font-extrabold text-base mt-2 text-slate-900">{line.slice(3)}</p>
+        if (line.startsWith('# '))  return <p key={i} className="font-extrabold text-lg mt-2 text-slate-900">{line.slice(2)}</p>
+        if (line.startsWith('- ') || line.startsWith('• ')) return <div key={i} className="flex gap-2"><span className="text-primary font-bold mt-0.5">•</span><span className="text-slate-800">{renderInline(line.slice(2))}</span></div>
+        if (/^\d+\. /.test(line)) return <div key={i} className="flex gap-2"><span className="text-primary font-bold">{line.match(/^\d+/)?.[0]}.</span><span className="text-slate-800">{renderInline(line.replace(/^\d+\. /, ''))}</span></div>
         if (!line.trim()) return <br key={i} />
-        return <p key={i}>{renderInline(line)}</p>
+        return <p key={i} className="text-slate-800">{renderInline(line)}</p>
       })}
     </div>
   )
@@ -210,12 +210,19 @@ export default function ChatPage() {
         <div className="flex-1 overflow-y-auto space-y-3 pb-3 pr-1 min-h-0">
           {messages.map(msg => (
             <div key={msg.id} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'} animate-fade-in`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm ${msg.role === 'user' ? 'bg-primary text-white' : 'bg-emerald-100 text-emerald-700'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${msg.role === 'user' ? 'bg-primary text-white' : 'bg-emerald-500 text-white'}`}>
                 {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
               </div>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${msg.role === 'user' ? 'bg-primary text-white rounded-tr-sm' : 'bg-white border border-border rounded-tl-sm shadow-sm'}`}>
-                {msg.role === 'assistant' ? <MarkdownText text={msg.content} /> : <p className="text-sm">{msg.content}</p>}
-                <p className={`text-xs mt-1.5 ${msg.role === 'user' ? 'text-white/60 text-right' : 'text-muted-foreground'}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
+                msg.role === 'user'
+                  ? 'bg-primary text-white rounded-tr-sm'
+                  : 'bg-sky-50 border border-sky-200 rounded-tl-sm text-slate-800'
+              }`}>
+                {msg.role === 'assistant'
+                  ? <MarkdownText text={msg.content} />
+                  : <p className="text-sm font-medium">{msg.content}</p>
+                }
+                <p className={`text-xs mt-1.5 ${msg.role === 'user' ? 'text-white/70 text-right' : 'text-slate-500'}`}>
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
@@ -223,15 +230,15 @@ export default function ChatPage() {
           ))}
           {loading && (
             <div className="flex gap-2.5 animate-fade-in">
-              <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 font-bold">
                 <Bot className="w-4 h-4" />
               </div>
-              <div className="bg-white border border-border rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+              <div className="bg-sky-50 border border-sky-200 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
                 <div className="flex items-center gap-1.5">
                   {[0,150,300].map(delay => (
                     <div key={delay} className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: `${delay}ms` }} />
                   ))}
-                  <span className="text-xs text-muted-foreground ml-1">{t('chat.typing')}{dots}</span>
+                  <span className="text-xs text-slate-600 font-medium ml-1">{t('chat.typing')}{dots}</span>
                 </div>
               </div>
             </div>
@@ -240,35 +247,35 @@ export default function ChatPage() {
         </div>
 
         {/* Disclaimer */}
-        <div className="flex gap-2 items-center p-2.5 bg-amber-50 border border-amber-200 rounded-lg mb-2 flex-shrink-0">
+        <div className="flex gap-2 items-center p-2.5 bg-amber-50 border-2 border-amber-200 rounded-xl mb-2 flex-shrink-0">
           <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
-          <p className="text-xs text-amber-700">{t('chat.disclaimer')}</p>
+          <p className="text-xs text-amber-800 font-semibold">{t('chat.disclaimer')}</p>
         </div>
 
         {/* Quick prompts — re-render on language change */}
-        <div key={language} className="flex gap-2 mb-2 overflow-x-auto pb-1 flex-shrink-0">
+        <div key={language} className="flex gap-2 mb-2 overflow-x-auto pb-1 flex-shrink-0 scrollbar-hide">
           {quickPrompts.map(key => (
             <button key={key} onClick={() => sendMessage(t(key))} disabled={loading}
-              className="flex-shrink-0 text-xs px-3 py-1.5 bg-white border border-border rounded-full hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 transition-colors disabled:opacity-40 whitespace-nowrap shadow-sm">
+              className="flex-shrink-0 text-xs px-4 py-2 bg-emerald-50 border-2 border-emerald-300 text-emerald-800 font-semibold rounded-full hover:bg-emerald-100 hover:border-emerald-400 transition-colors disabled:opacity-40 whitespace-nowrap shadow-sm">
               {t(key)}
             </button>
           ))}
         </div>
 
         {/* Input */}
-        <div className="bg-white border border-border rounded-2xl p-3 flex gap-2 items-end flex-shrink-0 shadow-md">
+        <div className="bg-white border-2 border-slate-200 rounded-2xl p-3 flex gap-2 items-end flex-shrink-0 shadow-md">
           <textarea
             ref={inputRef}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={t('chat.placeholder')}
-            className="flex-1 bg-transparent resize-none outline-none text-sm leading-relaxed min-h-[40px] max-h-32 text-foreground placeholder:text-muted-foreground"
+            className="flex-1 bg-transparent resize-none outline-none text-sm leading-relaxed min-h-[40px] max-h-32 text-slate-800 placeholder:text-slate-400 font-medium"
             rows={1}
           />
           <div className="flex gap-1.5 items-center flex-shrink-0">
             <button onClick={toggleVoiceInput}
-              className={`p-2 rounded-xl transition-colors ${isListening ? 'bg-destructive text-white animate-pulse' : 'hover:bg-muted text-muted-foreground'}`}>
+              className={`p-2 rounded-xl transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
               {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
             </button>
             <button onClick={() => sendMessage()} disabled={!input.trim() || loading}
